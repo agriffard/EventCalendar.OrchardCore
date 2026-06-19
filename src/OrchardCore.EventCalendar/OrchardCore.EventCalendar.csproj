@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <GenerateEmbeddedFilesManifest>true</GenerateEmbeddedFilesManifest>
+    <PreserveCompilationContext>true</PreserveCompilationContext>
+    <RootNamespace>OrchardCore.EventCalendar</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="OrchardCore.Module.Targets" Version="3.0.0" />
+    <PackageReference Include="OrchardCore.ContentManagement" Version="3.0.0" />
+    <PackageReference Include="OrchardCore.ContentManagement.Display" Version="3.0.0" />
+    <PackageReference Include="OrchardCore.ContentTypes.Abstractions" Version="3.0.0" />
+    <PackageReference Include="OrchardCore.DisplayManagement" Version="3.0.0" />
+    <PackageReference Include="OrchardCore.Navigation.Core" Version="3.0.0" />
+    <PackageReference Include="OrchardCore.Mvc.Core" Version="3.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+</Project>

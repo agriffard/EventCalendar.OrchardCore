@@ -1,0 +1,35 @@
+{
+  "name": "SampleEvent",
+  "displayName": "Sample Event",
+  "description": "Adds a sample Event content item.",
+  "author": "agriffard",
+  "website": "https://github.com/agriffard/EventCalendar.OrchardCore",
+  "version": "1.0.0",
+  "issetuprecipe": false,
+  "categories": [ "content" ],
+  "tags": [ "event", "sample" ],
+  "steps": [
+    {
+      "name": "content",
+      "data": [
+        {
+          "ContentType": "Event",
+          "DisplayText": "Orchard Core Meetup",
+          "Latest": true,
+          "Published": true,
+          "TitlePart": {
+            "Title": "Orchard Core Meetup"
+          },
+          "EventPart": {
+            "StartUtc": "2026-06-15T18:00:00Z",
+            "EndUtc": "2026-06-15T20:00:00Z",
+            "AllDay": false,
+            "Location": "Online",
+            "Url": "https://orchardcore.net",
+            "Description": "<p>A sample event seeded by the SampleEvent recipe.</p>"
+          }
+        }
+      ]
+    }
+  ]
+}

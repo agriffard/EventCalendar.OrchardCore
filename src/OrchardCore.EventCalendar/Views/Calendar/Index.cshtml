@@ -1,0 +1,86 @@
+@model CalendarViewModel
+@{
+    var title = $"{Model.MonthName} {Model.Year}";
+}
+
+<style asp-name="event-calendar">
+    .ec-calendar { width: 100%; }
+    .ec-calendar__header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; gap: .5rem; }
+    .ec-grid { width: 100%; border-collapse: collapse; table-layout: fixed; }
+    .ec-grid th { text-align: left; padding: .4rem .5rem; border: 1px solid var(--bs-border-color, #dee2e6); font-weight: 600; }
+    .ec-grid td { vertical-align: top; height: 7rem; padding: .35rem; border: 1px solid var(--bs-border-color, #dee2e6); }
+    .ec-day--out { background: var(--bs-tertiary-bg, #f8f9fa); color: var(--bs-secondary-color, #6c757d); }
+    .ec-day--today { outline: 2px solid var(--bs-primary, #0d6efd); outline-offset: -2px; }
+    .ec-day__num { font-size: .85rem; font-weight: 600; display: block; margin-bottom: .25rem; }
+    .ec-event { display: block; font-size: .8rem; padding: .1rem .35rem; margin-bottom: .15rem; border-radius: .25rem; background: var(--bs-primary, #0d6efd); color: #fff; text-decoration: none; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .ec-event--allday { background: var(--bs-success, #198754); }
+    .ec-event:hover { opacity: .85; color: #fff; }
+    .ec-upcoming { margin-top: 1.5rem; }
+</style>
+
+<div class="ec-calendar">
+    <div class="ec-calendar__header">
+        <a class="btn btn-outline-secondary btn-sm"
+           asp-action="Index" asp-route-year="@Model.PrevMonth.Year" asp-route-month="@Model.PrevMonth.Month">&laquo; @T["Previous"]</a>
+        <h1 class="h3 m-0">@title</h1>
+        <a class="btn btn-outline-secondary btn-sm"
+           asp-action="Index" asp-route-year="@Model.NextMonth.Year" asp-route-month="@Model.NextMonth.Month">@T["Next"] &raquo;</a>
+    </div>
+
+    <table class="ec-grid">
+        <thead>
+            <tr>
+                @foreach (var name in Model.WeekDayNames)
+                {
+                    <th>@name</th>
+                }
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var week in Model.Weeks)
+            {
+                <tr>
+                    @foreach (var day in week)
+                    {
+                        var classes = "ec-day";
+                        if (!day.InMonth) { classes += " ec-day--out"; }
+                        if (day.IsToday) { classes += " ec-day--today"; }
+                        <td class="@classes">
+                            <span class="ec-day__num">@day.Date.Day</span>
+                            @foreach (var ev in day.Events)
+                            {
+                                var evClass = ev.AllDay ? "ec-event ec-event--allday" : "ec-event";
+                                var time = ev.AllDay ? "" : ev.StartUtc.ToString("HH:mm") + " ";
+                                <a class="@evClass" title="@ev.Title@(string.IsNullOrWhiteSpace(ev.Location) ? "" : " — " + ev.Location)"
+                                   asp-area="OrchardCore.Contents" asp-controller="Item" asp-action="Display" asp-route-contentItemId="@ev.ContentItemId">@time@ev.Title</a>
+                            }
+                        </td>
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    @if (Model.UpcomingEvents.Count > 0)
+    {
+        <div class="ec-upcoming">
+            <h2 class="h4">@T["Upcoming events"]</h2>
+            <ul class="list-group">
+                @foreach (var ev in Model.UpcomingEvents)
+                {
+                    <li class="list-group-item d-flex justify-content-between align-items-start">
+                        <div>
+                            <a asp-area="OrchardCore.Contents" asp-controller="Item" asp-action="Display"
+                               asp-route-contentItemId="@ev.ContentItemId">@ev.Title</a>
+                            @if (!string.IsNullOrWhiteSpace(ev.Location))
+                            {
+                                <span class="text-muted">— @ev.Location</span>
+                            }
+                        </div>
+                        <span class="badge bg-secondary">@(ev.AllDay ? ev.StartUtc.ToString("D") : ev.StartUtc.ToString("g"))</span>
+                    </li>
+                }
+            </ul>
+        </div>
+    }
+</div>

@@ -1,0 +1,8 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/OrchardCore.EventCalendar/OrchardCore.EventCalendar.csproj" />
+  </Folder>
+  <Folder Name="/samples/">
+    <Project Path="samples/EventCalendar.Web/EventCalendar.Web.csproj" />
+  </Folder>
+</Solution>

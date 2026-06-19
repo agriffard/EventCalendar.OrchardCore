@@ -1,0 +1,46 @@
+@model EventAdminListViewModel
+
+<zone Name="Title"><h1>@RenderTitleSegments(T["Events"])</h1></zone>
+
+@if (Model.Events.Count == 0)
+{
+    <div class="alert alert-info">@T["No events found. Create an Event content item to get started."]</div>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>@T["Title"]</th>
+                <th>@T["Start"]</th>
+                <th>@T["End"]</th>
+                <th>@T["Location"]</th>
+                <th>@T["Published"]</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var ev in Model.Events)
+            {
+                <tr>
+                    <td>
+                        <a asp-action="Edit" asp-controller="Admin" asp-area="OrchardCore.Contents"
+                           asp-route-contentItemId="@ev.ContentItemId">@ev.Title</a>
+                    </td>
+                    <td>@(ev.AllDay ? ev.StartUtc.ToString("d") : ev.StartUtc.ToString("g"))</td>
+                    <td>@(ev.AllDay ? ev.EndUtc.ToString("d") : ev.EndUtc.ToString("g"))</td>
+                    <td>@(string.IsNullOrWhiteSpace(ev.Location) ? "—" : ev.Location)</td>
+                    <td>
+                        @if (ev.Published)
+                        {
+                            <span class="badge bg-success">@T["Published"]</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-secondary">@T["Draft"]</span>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

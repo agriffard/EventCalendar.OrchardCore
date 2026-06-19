@@ -1,0 +1,42 @@
+@model EventPartViewModel
+@{
+    var part = Model.Part;
+    var start = part.StartUtc;
+    var end = part.EndUtc;
+    string FormatDate(DateTime dt) => part.AllDay ? dt.ToString("D") : dt.ToString("f");
+}
+
+<div class="event">
+    <dl class="event__details row">
+        @if (start.HasValue)
+        {
+            <dt class="col-sm-3">@T["Starts"]</dt>
+            <dd class="col-sm-9">@FormatDate(start.Value)</dd>
+        }
+        @if (end.HasValue)
+        {
+            <dt class="col-sm-3">@T["Ends"]</dt>
+            <dd class="col-sm-9">@FormatDate(end.Value)</dd>
+        }
+        @if (part.AllDay)
+        {
+            <dt class="col-sm-3">@T["All day"]</dt>
+            <dd class="col-sm-9">@T["Yes"]</dd>
+        }
+        @if (!string.IsNullOrWhiteSpace(part.Location))
+        {
+            <dt class="col-sm-3">@T["Location"]</dt>
+            <dd class="col-sm-9">@part.Location</dd>
+        }
+        @if (!string.IsNullOrWhiteSpace(part.Url))
+        {
+            <dt class="col-sm-3">@T["Link"]</dt>
+            <dd class="col-sm-9"><a href="@part.Url" rel="noopener" target="_blank">@part.Url</a></dd>
+        }
+    </dl>
+
+    @if (!string.IsNullOrWhiteSpace(part.Description))
+    {
+        <div class="event__description">@Html.Raw(part.Description)</div>
+    }
+</div>
