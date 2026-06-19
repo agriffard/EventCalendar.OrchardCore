@@ -33,4 +33,4 @@ The site auto-installs (no setup screen) using the `EventCalendarDemo` recipe:
 
 ## Versions
 
-Targets `net8.0` and Orchard Core `2.2.1`.
+Targets `net10.0` and Orchard Core `3.0.0`.
